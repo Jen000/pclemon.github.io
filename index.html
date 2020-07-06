@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang = "en-US">
+<meta charset = "UTF-8">
+
+<head>
+  <title> Productivity Tracker/Dashboard </title>
+</head>
+
+<body>
+
+  <script src = "Dash.js"> </script>
+  <script src = "ToDo.js"> </script>
+  <script src = "https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"> </script>
+
+  <style>
+
+    .Menu{
+      height: 100%;
+      width: 25%;
+      position: absolute;
+      background-color: #707070;
+      visibility: hidden;
+    }
+
+    .MenuButton{
+      width: 60px;
+      height: 40px;
+      position: absolute;
+      background-color: white;
+      margin-left: 30px;
+      margin-top: 25px;
+      border-radius: 2px;
+      border: white;
+    }
+
+    .MenuDesign{
+      width: 30px;
+      height: 3px;
+      background-color: #707070;
+      margin-left: 7px;
+      margin-top: 5px;
+    }
+
+    .Close{
+      width: 60px;
+      height: 60px;
+      background-color: #707070;
+      position: absolute;
+      visibility: hidden;
+      margin-left: 5px;
+      margin-top: 4px;
+      border: #707070;
+    }
+
+    .CloseDesign{
+      width: 40px;
+      height: 3px;
+      background-color: white;
+    }
+
+    .Pages{
+      text-decoration: none;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      font-style: normal;
+      display: block;
+      margin-left: 30px;
+    }
+
+    .TimerButtons{
+      width: 52.5px;
+      height: 52.5px;
+      background-color: #707070;
+      border: #707070;
+      position: absolute;
+      border-radius: 2px;
+    }
+
+    /* Start timer design credit: https://www.w3schools.com/howto/howto_css_shapes.asp & https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_shapes_triangle-right */
+    .StartDesign{
+      width: 0;
+	    height: 0;
+	    border-top: 15px solid transparent;
+	    border-left: 25px solid #FFFF;
+	    border-bottom: 15px solid transparent;
+      margin-left: 8px;
+      border-radius: 2px;
+    }
+
+    .PauseDesign1{
+      width: 7px;
+      height: 37px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    .PauseDesign2{
+      width: 7px;
+      height: 37px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    .ResetDesign{
+      color: white;
+      font-size: 15px;
+    }
+
+    .SetTime{
+      width: 495.5px;
+      height: 102px;
+      background-color: white;
+      position: absolute;
+      border: white;
+      border-radius: 2px;
+    }
+
+    .Timer{
+      font-size: 60px;
+      color: #707070;
+      border: none;
+    }
+
+    .TimePopUp{
+      visibility: hidden;
+      width: 498.5px;
+      height: 105px;
+      background-color: #707070;
+      position: absolute;
+      border: #707070;
+    }
+
+    .Instructions{
+      color: white;
+      border: none;
+    }
+
+    .DisplayTime{
+      position: absolute;
+      visibility: hidden;
+      margin-left: 1500px; 
+      margin-top: 175px;
+      font-size: 50px;
+      color: #707070
+    }
+    
+    .ToDo{
+      height: 343px;
+      width: 1197px;
+      position: absolute;
+      background-color: white;
+      border-color: #707070;
+      border-style: solid;
+      border-radius: 2px;
+      margin-top: 579px;
+      margin-left: 688px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+  </style>
+
+
+  <!-- MENU -->
+  <div id = "menu" class = "Menu">
+    <h1> <a href = "index.html" class = "Pages" style = "margin-top: 100px;"> Dashboard </a> </h1>
+    <h1> <a href = "Stats.html" class = "Pages"> Stats </a> </h1>
+    <h1> <a href = "To-Do.html" class = "Pages"> To-Do </a> </h1>
+  </div>
+
+  <button id = "menubutton" class = "MenuButton" onclick = "menu()">
+    <!-- Credit for menu button design https://www.w3schools.com/howto/howto_css_menu_icon.asp-->
+    <div class = "MenuDesign"></div>
+    <div class = "MenuDesign"></div>
+    <div class = "MenuDesign"></div>
+  </button>
+
+  <button id = "menuclose" class = "Close" onclick = "closeMenu()">
+    <!-- Credit for design: https://www.w3schools.com/howto/howto_css_menu_icon.asp-->
+    <div class = "CloseDesign" style = "transform: rotate(45deg); margin-top: 5px;"></div>
+    <div class = "CloseDesign" style = "transform: rotate(-45deg) translate(10px, -8px); margin-top: 10px;"></div>
+  </button>
+
+  <!-- SESSION TIMER -->
+  <button id = "startsession" class = "TimerButtons" style = "margin-top: 150px; margin-left: 1837.5px;" onclick = "startSession()">
+    <div class = "StartDesign"></div>
+  </button>
+
+  <button id = "pause" class = "TimerButtons" style = "margin-left: 1837.5px; margin-top: 202.5px;" onclick = "pauseTimer()">
+    <div class = "PauseDesign1" style = "margin-top: 10px; margin-left: 7px;"></div>
+    <div class = "PauseDesign2" style = "margin-top: -37px; margin-left: 22px;"></div>
+  </button>
+
+  <button id = "timer" class = "SetTime" style = "margin-left: 1341px; margin-top: 152px;" onclick = "setTime()">
+    <p class = "Timer" style = "margin-top: 0px; margin-bottom: 0px;"> Set Time </p>
+  </button>
+
+  <div id = "settime" class = "TimePopUp" style = "margin-left: 1339px; margin-top: 150px;">
+    <h4 id = "instructions" class = "Instructions" style = "margin-left: 55px;">
+      Enter Time: (in form hours:minutes:seconds 00:00:00)
+    </h4>
+  </div>
+
+  <p id = "displaytime" class = DisplayTime></p>
+  
+  <!-- TIME SINCE LAST BREAK -->
+  <button id = "startBreak" class = "TimerButtons" style = "margin-left: 1837.5px; margin-top: 340px;" onclick = "startBreak()">
+    <div class = "StartDesign"></div>
+  </button>
+  
+  <button id = "reset" class = "TimerButtons" style = "margin-top: 392.5px; margin-left: 1837.5px;"onclick = resetTimer()>
+    <p class = "ResetDesign"> Reset </p>
+  </button>
+
+  <p id = "displaytimebreak" class = DisplayTime style = "margin-top: 370px; visibility: visible;"> 00:00:00 </p>
+
+  <!-- TO-DO -->
+  <div class = "ToDo"></div>
+</body>
+
+</html>

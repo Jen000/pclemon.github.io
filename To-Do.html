@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang = "en-US">
+<meta charset = "UTF-8">
+
+<head>
+  <title> Productivity Tracker/To-Do </title>
+</head>
+
+<body>
+
+  <script src = "To-Do.js"> </script>
+  <script src = "https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"> </script>
+
+  <style>
+
+    .Menu{
+      height: 100%;
+      width: 25%;
+      position: absolute;
+      margin-top: 20px;
+      background-color: #707070;
+      visibility: hidden;
+      z-index: 30;
+    }
+
+    .MenuButton{
+      width: 60px;
+      height: 40px;
+      position: absolute;
+      background-color: white;
+      margin-left: 30px;
+      margin-top: 25px;
+      border-radius: 2px;
+      border: white;
+    }
+
+    .MenuDesign{
+      width: 30px;
+      height: 3px;
+      background-color: #707070;
+      margin-left: 7px;
+      margin-top: 5px;
+    }
+
+    .Close{
+      width: 60px;
+      height: 60px;
+      background-color: #707070;
+      position: absolute;
+      visibility: hidden;
+      margin-left: 5px;
+      margin-top: 4px;
+      border: #707070;
+      z-index: 30;
+    }
+
+    .CloseDesign{
+      width: 40px;
+      height: 3px;
+      background-color: white;
+      z-index: 30;
+    }
+
+    .Pages{
+      text-decoration: none;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      font-style: normal;
+      display: block;
+      margin-left: 30px;
+    }
+
+    .ToDo{
+      height: 845px;
+      width: 511px;
+      position: absolute;
+      background-color: white;
+      border-color: #707070;
+      border-style: solid;
+      border-radius: 2px;
+      margin-top: 130px;
+      margin-left: 68px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      z-index: 0;
+    }
+
+    .AddTaskButton{
+      width: 75px;
+      height: 75px;
+      margin-top: 96px;
+      margin-left: 645px;
+      border-width: 2px;;
+      position: absolute;
+      background-color: white;
+      border-style: solid;
+      border-color: #707070;
+      border-radius: 2px;
+    }
+
+    .AddTaskDesign1{
+      width: 3px;
+      height: 56px;
+      position: absolute;
+      margin-top: -26px;
+      margin-left: 26px;
+      background-color: #707070;
+      border-radius: 2px;;
+    }
+
+    .AddTaskDesign2{
+      width: 56px;
+      height: 3px;
+      position: absolute;
+      margin-top: 0px;
+      margin-left: 0px;
+      background-color: #707070;
+      border-radius: 2px;
+    }
+
+    .NewToDo{
+      width: 975px;
+      height: 540px;
+      position: absolute;
+      background-color: #707070;
+      margin-top: 435px;
+      margin-left: 711px;
+      border-radius: 2px;
+      visibility: hidden;
+    }
+
+    .Title{
+      color: white;
+      margin-top: 5px;
+      margin-left: 30px;
+      font-family: Arial, Helvetica, sans-serif;
+      border: none;
+    }
+
+    .InputTitle{
+      height: 52px;
+      width: 906px;
+      margin-top: -20px;
+      margin-left: 30px;
+      font-size: 30px;
+    }
+
+    .DetailsTitle{
+      color: white;
+      margin-top: 5px;
+      margin-left: 30px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .Details{
+      resize: none;
+      background-color: white;
+      width: 908px;
+      height: 313px;
+      margin-left: 30px;
+      margin-top: -20px;
+      font-size: 20px;
+      border: none;
+    }
+
+    .SubmitTaskButton{
+      height: 45px;
+      width: 128px;
+      margin-left: 812px;
+      margin-top: 10px;
+      border-style: solid;
+      border-color: white;
+      background-color: #707070;
+      border-radius: 2px;
+    }
+
+    .SubmitDesign{
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      margin-top: 7px;
+    }
+
+    .ClearAllButton{
+      position: absolute;
+      background-color: #707070;
+      border-radius: 2px;
+      border-color: #707070;
+      border-style: solid;
+      height: 75px;
+      width:150px;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 25px;
+      margin-top: 96px;
+      margin-left: 765px;
+    }
+
+  </style>
+
+  <div id = "menu" class = "Menu">
+    <h1> <a href = "index.html" class = "Pages" style = "margin-top: 100px;"> Dashboard </a> </h1>
+    <h1> <a href = "Stats.html" class = "Pages"> Stats </a> </h1>
+    <h1> <a href = "To-Do.html" class = "Pages"> To-Do </a> </h1>
+  </div>
+
+  <button id = "menubutton" class = "MenuButton" onclick = "menu()">
+    <!-- Credit for menu button design https://www.w3schools.com/howto/howto_css_menu_icon.asp-->
+    <div class = "MenuDesign"></div>
+    <div class = "MenuDesign"></div>
+    <div class = "MenuDesign"></div>
+  </button>
+
+  <button id = "menuclose" class = "Close" onclick="closeMenu()">
+    <!-- Design inspiration: https://www.w3schools.com/howto/howto_css_menu_icon.asp-->
+    <div class = "CloseDesign" style = "transform: rotate(45deg); margin-top: 5px;"></div>
+    <div class = "CloseDesign" style = "transform: rotate(-45deg) translate(10px, -8px); margin-top: 10px;"></div>
+  </button>
+
+  <!-- TO-DO -->
+  <div class = "ToDo"></div>
+
+  <button id = "addtask" class = "AddTaskButton" onclick = "addTask()">
+    <div class = "AddTaskDesign1"></div>
+    <div class = "AddTaskDesign2"></div>
+  </button>
+
+  <div id = "newtodo" class = "NewToDo">
+    <h1 class = "Title"> Title </h1>
+    <input id = "inputtitle" class = "InputTitle" type = "text">
+    <h1 class = "DetailsTitle"> Details </h1>
+    <textarea id = "details" class = "Details"></textarea>
+    <button id = submit class = "SubmitTaskButton" onclick = "submitTask()">
+      <h1 class = "SubmitDesign"> Submit </h1>
+    </button>
+  </div>
+
+  <button class = "ClearAllButton" onclick = "clearAll()"> Clear All </button>
+  
+</body>
+
+</html>
