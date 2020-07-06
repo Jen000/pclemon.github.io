@@ -41,6 +41,7 @@ function setup() {
 }
 
 function draw() {
+  let w = new Worker("Dash.js");
   if(submit){
     newTask(document.getElementById('inputtitle').value, document.getElementById('details').value);
     display(yCord);
