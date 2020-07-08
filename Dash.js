@@ -385,6 +385,9 @@ function display(y){
 
   //Credit goes to Samich for the tooltip: https://stackoverflow.com/questions/7503183/what-is-the-easiest-way-to-create-an-html-mouse-over-tool-tip
   titleDisplay.style('cursor', 'pointer');
+  if(details[details.length - 1] == ""){
+    details[details.length - 1] = "N/A";
+  }
   titleDisplay.attribute('title', details[details.length - 1]);
 
 }
