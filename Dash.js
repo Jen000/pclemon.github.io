@@ -10,6 +10,7 @@ let userMinute = 0;
 let userSecond = 0;
 let myFrameCount = 0;
 let tempFrameCount = 0;
+
 //Variables for break timer
 let pause = false;
 let timeStartBreak = false;
@@ -26,9 +27,35 @@ let submit = false;
 let yAxis = 1;
 let elementCount = 0;
 
+//Variables for graph one
+let graph1;
+let labeled = false;
+let increment1 = 1;
+let bars = [];
+let myFrameCountProgram1 = 0;
+let newProgram = true;
+let endTracking = true;
+let programIndex = 0;
+let programMinute = 0;
+let limitGraph1 = 12;
+let myFrameCountProgram2 = 0;
+
+//Variables for graph two
+let graph2;
+let increment2 = 1;
+let barGroups = [];
+let limitGraph2 = 4;
+let workMinute = 0;
+let leisureMinute = 0;
+let scrollingMinute = 0;
+let workSecond = 0;
+let leisureSecond = 0;
+let scrollingSecond = 0;
+
 function setup() {
   noLoop();
   noErase();
+  
   createCanvas(1920, windowHeight);
   background('white');
 
@@ -36,6 +63,7 @@ function setup() {
   fill('#707070');
   noStroke();
   rect(0, 0, 1920, 90);
+  
   //Page title
   fill('white');
   textSize(40);
@@ -45,10 +73,6 @@ function setup() {
   strokeWeight(3);
   stroke('#707070');
   fill('white');
-
-  //Graphs
-  rect(30, 110, 637, 392, 2);
-  rect(689, 110, 637, 392, 2);
 
   //Timers
   rect(1339, 150, 551, 105, 2);
@@ -68,29 +92,110 @@ function setup() {
   strokeWeight(3);
   stroke('#707070');
   fill('white');
+
   //Top 3
-  rect(30, 540, 637, 230, 2);
+  rect(30, 540, 637, 220, 2);
+
+  noStroke();
+  fill('#707070');
+  text('Top Three Most Used Apps', 90, 575);
+
+  textSize(35);
+  text('1) ', 35, 630);
+  text('2) ', 35, 685);
+  text('3) ', 35, 740);
+
+  stroke('#707070');
+  line(32, 587, 665, 587);
+
+  line(32, 643.75, 665, 643.75);
+  line(32, 700.75, 665, 700.75);
 
   //To Do
-  //rect(689, 540, 1200, 383, 2);
+  noFill();
+  stroke('#707070')
   rect(689, 540, 1200, 40, 2);
 
   noStroke();
   fill('#707070');
-  text('To-Do: ', 694, 575);
+  text('To-Do:', 694, 575);
+
+  textSize(20);
+  text('(Hover over a task for details)', 820, 575);
+
+  graph1 = new Graph(1);
+  graph1.yAxisNumbers(increment1, 1);
+
+  graph2 = new Graph(2);
+  graph2.yAxisNumbers(increment2, 2);
+
+  //Testing
+
+  //Limit 12
+  // bars.push(new Bar('Slack', bars.length + 1));
+  // bars.push(new Bar('Atom', bars.length + 1));
+  // bars.push(new Bar('Word', bars.length + 1));
+  // bars.push(new Bar('Mail', bars.length + 1));
+  // bars.push(new Bar('Excel', bars.length + 1));
+  
+
+  // bars[0].updateBar(1, 30);
+  // bars[1].updateBar(1, 10);
+  // bars[2].updateBar(1, 50);
+  // bars[3].updateBar(1, 20);
+  // bars[4].updateBar(1, 70);
+
+  // //Limit 4
+  // barGroups.push(new BarGroup('Slack', barGroups.length + 1));
+
+  // barGroups[0].updateWorkBar(1, 65);
+  // barGroups[0].updateLeisureBar(1, 50);
+  // barGroups[0].updateScrollingBar(1, 30);
+
+  // barGroups.push(new BarGroup('Atom', barGroups.length + 1));
+
+  // barGroups[1].updateWorkBar(1, 20);
+  // barGroups[1].updateLeisureBar(1, 40);
+  // barGroups[1].updateScrollingBar(1, 15);
+
+  // barGroups.push(new BarGroup('Word', barGroups.length + 1));
+
+  // barGroups[2].updateWorkBar(1, 75);
+  // barGroups[2].updateLeisureBar(1, 55);
+  // barGroups[2].updateScrollingBar(1, 10);
+
+  // barGroups.push(new BarGroup('Word', barGroups.length + 1));
+
+  // barGroups[3].updateWorkBar(1, 75);
+  // barGroups[3].updateLeisureBar(1, 55);
+  // barGroups[3].updateScrollingBar(1, 10);
 
 
+
+
+  //graph2.updateXAxisLength();
+  //graph1.updateXAxisLength();
+  //mostUsed(bars);
 
 }
 
 function draw(){
   loop();
+
+  if(labeled == false){
+    graph1.yAxisNumbers(increment1, 1);
+    labeled = true;
+  }
+
   //Idea for separate frameCount variable by Amiral Betasin comment: https://www.khanacademy.org/computer-programming/framecount-processingjs/5893935759097856
   myFrameCount++; //Session Timer
   myFrameCount2++; //Break Timer
+  myFrameCountProgram1++; //leftmost graph
+  myFrameCountProgram2++; //rightmost graph
   
   sessionTimer();
   breakTimer();
+
 
   if(submit){
     newTask(document.getElementById('inputtitle').value, document.getElementById('details').value);
@@ -98,26 +203,39 @@ function draw(){
     yCord += 51;
     submit = false;
 
+    //Clearing text field credit to reminder on https://www.sitepoint.com/community/t/how-to-reset-all-form-fields-when-reloading-refreshing-page/1822
     document.getElementById('inputtitle').value = '';
     document.getElementById('details').value = '';
-
   }
+
+  if(endTracking == false){
+    if(bars.length > limitGraph1){
+      graph1.updateXAxisLength();
+      limitGraph1 = limitGraph1 * 2;
+    }
+    if(barGroups.length > limitGraph2){
+      graph2.updateXAxisLength();
+      limitGraph2 = limitGraph2 * 2;
+    }
+    if(myFrameCountProgram1 % 3600 == 0){
+      programMinute++;
+      bars[programIndex].updateBar(increment1, programMinute);
+      mostUsed(bars);
+      if(bars[programIndex].getTime() >= increment1 * 240){
+        increment1++;
+        labeled = false;
+      }
+    }
+  }
+
+  if(bars.length >= 3){
+    mostUsed(bars);
+  }
+
 }
 
 
 /* Functions for html buttons */
-
-function menu(){
-  //When the menu button is clicked show menu, hide the menu button, and show the close button
-  document.getElementById('menu').style.visibility = "visible"
-  document.getElementById('menubutton').style.visibility = "hidden";
-  document.getElementById('menuclose').style.visibility = "visible";
-}
-function closeMenu(){
-  document.getElementById('menuclose').style.visibility = "hidden";
-  document.getElementById('menubutton').style.visibility = "visible";
-  document.getElementById('menu').style.visibility = "hidden";
-}
 
 function startSession(){
   let errorMessage = "Please Enter Time"
@@ -133,7 +251,7 @@ function startSession(){
     document.getElementById('settime').style.visibility = "hidden";
     document.getElementById('timer').style.visibility = "hidden";
 
-    removeElements();
+    userTime.remove();
     
     document.getElementById('displaytime').style.visibility = "visible";
     timeStartSession = true;
@@ -155,7 +273,6 @@ function pauseTimer(){
 }
 
 function startBreak(){
-  // document.getElementById('displaytimebreak').style.visibility = "visible";
   timeStartBreak = true;
 }
 
@@ -207,6 +324,65 @@ function clearAll(){
   yCord = 1; 
   yAxis = 1;
 
+}
+
+function addProgram(){
+  document.getElementById('program').value = "";
+  document.getElementById('programpopup').style.visibility = "visible";
+}
+
+function submitProgram(){
+  
+  document.getElementById('programpopup').style.visibility = "hidden";
+  document.getElementById('addprogrambutton').style.visibility = "hidden";
+  document.getElementById('endprogrambutton').style.visibility = "visible";
+
+  for(let i = 0; i < bars.length; i++){
+    //Getting the value from a text field: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_text_get
+    let name = bars[i].getName().toLowerCase();
+    let temp = document.getElementById('program').value.toLowerCase();
+
+    //Checks if the entered program to track has already been tracked
+    if(name === temp){
+      newProgram = false;
+      programIndex = i;
+
+      //Sets up lefttmost graph
+      myFrameCountProgram1 = bars[i].getFrameCount();
+      programMinute = bars[i].getTime();
+
+      //Sets up rightmost graph
+      myFrameCountProgram2 = barGroups[i].getFrameCount();
+      workMinute = barGroups[i].getWorkTime();
+      leisureMinute = barGroups[i].getLeisureTime();
+      scrollingMinute = barGroups[i].getScrollingMinute();
+    }
+  }
+
+  //If the entered program hasn't already been tracked
+  if(newProgram == true){
+    bars.push(new Bar(document.getElementById('program').value, bars.length + 1));
+    barGroups.push(new Bar(document.getElementById('program').value, barGroups.length +1 ));
+
+    programIndex = bars.length - 1;
+    myFrameCountProgram1 = 0;
+    myFrameCountProgram2 = 0;
+    programMinute = 0;
+  }
+
+  newProgram = true;
+  endTracking = false;
+  document.getElementById('program').value = "";
+  
+}
+
+function endProgram(){
+  document.getElementById('endprogrambutton').style.visibility = "hidden";
+  document.getElementById('addprogrambutton').style.visibility = "visible";
+  endTracking = true;
+
+  bars[programIndex].setFrameCount(myFrameCountProgram1);
+  barGroups[programIndex].setFrameCount(myFrameCountProgram2);
 }
 
 
@@ -265,6 +441,7 @@ function displayTime(name){
   }
 }
 
+//Logic for the session timer
 function sessionTimer(){
   //Ideas for timer from the following: https://editor.p5js.org/allison.parrish/sketches/H1__vQxiW and https://www.youtube.com/watch?v=MLtAMg9_Svw 
   if(timeStartSession == true && pause == false){
@@ -314,6 +491,7 @@ function sessionTimer(){
   }
 }
 
+//Logic for the break timer
 function breakTimer(){
   //Ideas for timer from the following: https://editor.p5js.org/allison.parrish/sketches/H1__vQxiW and https://www.youtube.com/watch?v=MLtAMg9_Svw 
   if(timeStartBreak == true){
@@ -338,18 +516,20 @@ function breakTimer(){
   }
 }
 
+//Adds a new task
 function newTask(title, detail){
   titles.push(title);
   details.push(detail);
 }
 
+//Used to display the to do list
 function display(y){
   elementCount++;
 
   let button = createButton('');
   button.id('check');
   button.position(1, y);
-  button.mousePressed(function check(){button.style('background-color', 'limegreen');});
+  button.mousePressed(function check(){button.style('background-color', '#66ff66');});
   button.parent(document.getElementById('todo'));
 
   button.style('position', 'absolute');
@@ -390,4 +570,61 @@ function display(y){
   }
   titleDisplay.attribute('title', details[details.length - 1]);
 
+}
+
+//Finds the 3 most used apps
+function mostUsed(apps){
+  //Credit for line next line Saket: https://stackoverflow.com/questions/7486085/copy-array-by-value
+  let temp = apps.slice();
+  let mostUsedApps = [];
+  let i = 0;
+  let firstProgram = temp[0];
+  let secondProgram;
+  let thirdProgram;
+  let saveIndex = 0;
+  //Find the MOST used app
+  for(i = 0; i < temp.length; i++){
+    if(firstProgram.getTime() < temp[i].getTime()){
+      firstProgram = temp[i];
+      saveIndex = i;
+    }
+  }
+  temp.splice(saveIndex, 1);
+  mostUsedApps.push(firstProgram.getName());
+
+  //Find the second most used app
+  if(temp.length != 0){
+    secondProgram = temp[0];
+    saveIndex = 0;
+    for(i = 0; i < temp.length; i++){
+      if(secondProgram.getTime() < temp[i].getTime()){
+        secondProgram = temp[i];
+        saveIndex = i;
+      }
+    }
+    temp.splice(saveIndex, 1);
+    mostUsedApps.push(secondProgram.getName());
+  }
+
+  //Find the third most used app
+  if(temp.length != 0){
+    thirdProgram = temp[0];
+    saveIndex = 0;
+    for(i = 0; i < temp.length; i++){
+      if(thirdProgram.getTime() < temp[i].getTime()){
+        thirdProgram = temp[i];
+        saveIndex = i;
+      }
+    }
+    mostUsedApps.push(thirdProgram.getName());
+  }
+
+  displayMostUsed(mostUsedApps)
+}
+
+//Displays the three most used apps
+function displayMostUsed(apps){
+  document.getElementById('first').innerHTML = apps[0];
+  document.getElementById('second').innerHTML = apps[1];
+  document.getElementById('third').innerHTML = apps[2];   
 }

@@ -5,284 +5,16 @@
 
 <head>
   <title> Productivity Tracker </title>
+  <!-- Links the .css file -->
+  <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body>
   <script src = "Dash.js"> </script>
+  <script src = "Graph.js"> </script>
+  <script src = "Bar.js"> </script>
+  <script src = "BarGroup.js"> </script>
   <script src = "https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"> </script>
-
-  <style>
-
-/*
-    .Menu{
-      height: 100%;
-      width: 25%;
-      position: absolute;
-      background-color: #707070;
-      visibility: hidden;
-    }
-
-    .MenuButton{
-      width: 60px;
-      height: 40px;
-      position: absolute;
-      background-color: white;
-      margin-left: 30px;
-      margin-top: 25px;
-      border-radius: 2px;
-      border: white;
-    }
-
-    .MenuDesign{
-      width: 30px;
-      height: 3px;
-      background-color: #707070;
-      margin-left: 7px;
-      margin-top: 5px;
-    }
-
-    .Close{
-      width: 60px;
-      height: 60px;
-      background-color: #707070;
-      position: absolute;
-      visibility: hidden;
-      margin-left: 5px;
-      margin-top: 4px;
-      border: #707070;
-    }
-
-    .CloseDesign{
-      width: 40px;
-      height: 3px;
-      background-color: white;
-    }
-
-    .Pages{
-      text-decoration: none;
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
-      font-style: normal;
-      display: block;
-      margin-left: 30px;
-    }
-*/
-    .TimerButtons{
-      width: 52.5px;
-      height: 52.5px;
-      background-color: #707070;
-      border: #707070;
-      position: absolute;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    /* Start timer design credit: https://www.w3schools.com/howto/howto_css_shapes.asp & https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_shapes_triangle-right */
-    .StartDesign{
-      width: 0;
-	    height: 0;
-	    border-top: 15px solid transparent;
-	    border-left: 25px solid #FFFF;
-	    border-bottom: 15px solid transparent;
-      margin-left: 8px;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .PauseDesign1{
-      width: 7px;
-      height: 37px;
-      background-color: white;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .PauseDesign2{
-      width: 7px;
-      height: 37px;
-      background-color: white;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .ResetDesign{
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    .SetTime{
-      width: 495.5px;
-      height: 102px;
-      background-color: white;
-      position: absolute;
-      border: white;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .Timer{
-      font-size: 60px;
-      color: #707070;
-      border: none;
-    }
-
-    .TimePopUp{
-      visibility: hidden;
-      width: 498.5px;
-      height: 105px;
-      background-color: #707070;
-      position: absolute;
-      border: #707070;
-    }
-
-    .Instructions{
-      color: white;
-      border: none;
-    }
-
-    .DisplayTime{
-      position: absolute;
-      visibility: hidden;
-      margin-left: 1500px; 
-      margin-top: 175px;
-      font-size: 50px;
-      color: #707070
-    }
-
-    /* To Do */ 
-    /* credit for making the list scrollable: https://css-tricks.com/almanac/properties/o/overflow/ */
-    .ToDo{
-      height: 343px;
-      width: 1197px;
-      position: absolute;
-      background-color: white;
-      border-color: #707070;
-      border-style: solid;
-      border-radius: 2px;
-      margin-top: 579px;
-      margin-left: 688px;
-      overflow: scroll;
-    }
-
-    .AddTaskButton{
-      width: 35px;
-      height: 35px;
-      margin-top: 542px;
-      margin-left: 1690px;
-      border-width: 2px;;
-      position: absolute;
-      background-color: white;
-      border-style: solid;
-      border-color: #707070;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .AddTaskDesign1{
-      width: 3px;
-      height: 20px;
-      position: absolute;
-      margin-top: -9px;
-      margin-left: 8px;
-      background-color: #707070;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .AddTaskDesign2{
-      width: 20px;
-      height: 3px;
-      position: absolute;
-      margin-top: -1px;
-      margin-left: -1px;
-      background-color: #707070;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .NewToDo{
-      width: 975px;
-      height: 540px;
-      position: absolute;
-      background-color: #707070;
-      margin-top: 435px;
-      margin-left: 711px;
-      border-radius: 2px;
-      visibility: hidden;
-      z-index: 30;
-    }
-
-    .Title{
-      color: white;
-      margin-top: 5px;
-      margin-left: 30px;
-      font-family: Arial, Helvetica, sans-serif;
-      border: none;
-    }
-
-    .InputTitle{
-      height: 52px;
-      width: 906px;
-      margin-top: -20px;
-      margin-left: 30px;
-      font-size: 30px;
-    }
-
-    .DetailsTitle{
-      color: white;
-      margin-top: 5px;
-      margin-left: 30px;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .Details{
-      resize: none;
-      background-color: white;
-      width: 908px;
-      height: 313px;
-      margin-left: 30px;
-      margin-top: -20px;
-      font-size: 20px;
-      border: none;
-    }
-
-    .SubmitTaskButton{
-      height: 45px;
-      width: 128px;
-      margin-left: 812px;
-      margin-top: 10px;
-      border-style: solid;
-      border-color: white;
-      background-color: #707070;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .SubmitDesign{
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
-      margin-top: 7px;
-      cursor: pointer;
-    }
-
-    .ClearAllButton{
-      position: absolute;
-      background-color: #707070;
-      border-radius: 2px;
-      border-color: #707070;
-      border-style: solid;
-      height: 35px;
-      width: 150px;
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 25px;
-      margin-top: 542px;
-      margin-left: 1735px;
-      cursor: pointer;
-    }
-
-  </style>
 
 
   <!-- SESSION TIMER -->
@@ -318,6 +50,11 @@
 
   <p id = "displaytimebreak" class = DisplayTime style = "margin-top: 370px; visibility: visible;"> 00:00:00 </p>
 
+  <!-- Top Three -->
+  <p id = "first" class = "First"> </p>
+  <p id = "second" class = "Second"> </p>
+  <p id = "third" class = "Third"> </p>
+
   <!-- TO-DO -->
   <div id = "todo" class = "ToDo"></div>
 
@@ -335,8 +72,19 @@
       <h1 class = "SubmitDesign"> Submit </h1>
     </button>
   </div>
-
   <button class = "ClearAllButton" onclick = "clearAll()"> Clear All </button>
-</body>
 
+<div id = "timeinapp" class = "AppTime">
+  <button id = "addprogrambutton" class = "AddProgramButton" onclick = "addProgram()"> Add Program to Track </button>
+  <div id = "programpopup" class = "ProgramPopUp">
+    <h2 class = "ProgramName"> Enter the name of the program you would like to track. </h2>
+    <input id = "program" class = "Program" type = "text">
+    <button class = "SubmitProgramButton" onclick = "submitProgram()"> Submit </button>
+  </div>
+  <button id = "endprogrambutton" class = "EndProgramButton" onclick = "endProgram()"> End Program </button>
+</div>
+
+<div id = "timedivision" class = "TimeDivision"></div>
+
+</body>
 </html>
