@@ -33,6 +33,8 @@ This project has been completed barring any bugs.
 1. Download a text editor of your choice
    * Personally I use VS code, and you can download it [here](https://code.visualstudio.com/download)
 2. The code from this page
+  * To run the code open the index.html file in your browser of choice
+  * Make changes then refresh the browser window to reflect those changes
 
 ### Want to Contribute?
 If you want to contrbute please go [here](CONTRIBUTING.md) first.
