@@ -48,7 +48,7 @@ class Graph{
             scrolling.style('margin-top', '365px');
             scrolling.style('margin-left', '150px');
 
-            let scrollingLabel = createP('Scrolling');
+            let scrollingLabel = createP('Other');
             scrollingLabel.parent(scrolling);
 
             scrollingLabel.style('text-align', 'right');
@@ -58,29 +58,6 @@ class Graph{
             scrollingLabel.style('margin-left', '20px');
             scrollingLabel.style('margin-top', '-3px');
             scrollingLabel.style('font-size', '20px');
-
-            let leisure = createDiv();
-            leisure.parent(document.getElementById('timedivision'));
-            leisure.style('position', 'absolute');
-            leisure.style('height', '15px');
-            leisure.style('width', '15px');
-            leisure.style('border-style', 'solid');
-            leisure.style('border-color', '#707070');
-            leisure.style('border-radius', '2px');
-            leisure.style('background-color', '#66ffff');
-            leisure.style('margin-top', '365px');
-            leisure.style('margin-left', '260px');
-
-            let leisureLabel = createP('Leisure');
-            leisureLabel.parent(leisure);
-
-            leisureLabel.style('text-align', 'right');
-            leisureLabel.style('position', 'absolute');
-            leisureLabel.style('font-family', 'Arial, Helvetica, sans-serif');
-            leisureLabel.style('color', '#707070');
-            leisureLabel.style('margin-left', '20px');
-            leisureLabel.style('margin-top', '-3px');
-            leisureLabel.style('font-size', '20px');
         }
 
         this.yAxis.style('margin-top', '40px');
@@ -123,16 +100,21 @@ class Graph{
 
     //Controls the numbers on the y-axis and the increments (inc) in which they increase
     yAxisNumbers(inc, graph){
-        let one;
-        let two;
-        let three;
-        let four;
+        let one = createP();
+        let two = createP();
+        let three = createP();
+        let four = createP();
 
         if(graph == 1){
-            one = createP(inc);
-            two = createP(inc * 2);
-            three = createP(inc * 3);
-            four = createP(inc * 4);
+            one.id('numberone');
+            two.id('numbertwo');
+            three.id('numberthree');
+            four.id('numberfour');
+
+            document.getElementById('numberone').innerHTML = inc;
+            document.getElementById('numbertwo').innerHTML = inc * 2;
+            document.getElementById('numberthree').innerHTML = inc * 3;
+            document.getElementById('numberfour').innerHTML = inc * 4;
 
             one.parent(document.getElementById('timeinapp'));
             two.parent(document.getElementById('timeinapp'));
@@ -140,10 +122,15 @@ class Graph{
             four.parent(document.getElementById('timeinapp'));
         }
         else if(graph == 2){
-            one = createP(inc);
-            two = createP(inc * 2);
-            three = createP(inc * 3);
-            four = createP(inc * 4);
+            one.id('number1');
+            two.id('number2');
+            three.id('number3');
+            four.id('number4');
+            
+            document.getElementById('number1').innerHTML = inc;
+            document.getElementById('number2').innerHTML = inc * 2;
+            document.getElementById('number3').innerHTML = inc * 3;
+            document.getElementById('number4').innerHTML = inc * 4;
 
             one.parent(document.getElementById('timedivision'));
             two.parent(document.getElementById('timedivision'));

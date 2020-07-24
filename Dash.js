@@ -29,7 +29,7 @@ let elementCount = 0;
 
 //Variables for graph one
 let graph1;
-let labeled = false;
+let labeled1 = false;
 let increment1 = 1;
 let bars = [];
 let myFrameCountProgram1 = 0;
@@ -38,19 +38,14 @@ let endTracking = true;
 let programIndex = 0;
 let programMinute = 0;
 let limitGraph1 = 12;
-let myFrameCountProgram2 = 0;
 
 //Variables for graph two
 let graph2;
 let increment2 = 1;
 let barGroups = [];
-let limitGraph2 = 4;
-let workMinute = 0;
-let leisureMinute = 0;
-let scrollingMinute = 0;
-let workSecond = 0;
-let leisureSecond = 0;
-let scrollingSecond = 0;
+let label2 = false;
+let limitGraph2 = 6;
+let originalTime = 0;
 
 function setup() {
   noLoop();
@@ -125,13 +120,16 @@ function setup() {
 
   graph1 = new Graph(1);
   graph1.yAxisNumbers(increment1, 1);
+  labeled1 = true;
 
   graph2 = new Graph(2);
   graph2.yAxisNumbers(increment2, 2);
+  labeled2 = true;
 
   //Testing
 
   //Limit 12
+
   // bars.push(new Bar('Slack', bars.length + 1));
   // bars.push(new Bar('Atom', bars.length + 1));
   // bars.push(new Bar('Word', bars.length + 1));
@@ -145,33 +143,26 @@ function setup() {
   // bars[3].updateBar(1, 20);
   // bars[4].updateBar(1, 70);
 
-  // //Limit 4
+  // //Limit 6
   // barGroups.push(new BarGroup('Slack', barGroups.length + 1));
 
   // barGroups[0].updateWorkBar(1, 65);
-  // barGroups[0].updateLeisureBar(1, 50);
-  // barGroups[0].updateScrollingBar(1, 30);
+  // barGroups[0].updateOtherBar(1, 30);
 
   // barGroups.push(new BarGroup('Atom', barGroups.length + 1));
 
   // barGroups[1].updateWorkBar(1, 20);
-  // barGroups[1].updateLeisureBar(1, 40);
-  // barGroups[1].updateScrollingBar(1, 15);
+  // barGroups[1].updateOtherBar(1, 15);
 
   // barGroups.push(new BarGroup('Word', barGroups.length + 1));
 
   // barGroups[2].updateWorkBar(1, 75);
-  // barGroups[2].updateLeisureBar(1, 55);
-  // barGroups[2].updateScrollingBar(1, 10);
+  // barGroups[2].updateOtherBar(1, 10);
 
   // barGroups.push(new BarGroup('Word', barGroups.length + 1));
 
   // barGroups[3].updateWorkBar(1, 75);
-  // barGroups[3].updateLeisureBar(1, 55);
-  // barGroups[3].updateScrollingBar(1, 10);
-
-
-
+  // barGroups[3].updateOtherBar(1, 10);
 
   //graph2.updateXAxisLength();
   //graph1.updateXAxisLength();
@@ -182,20 +173,23 @@ function setup() {
 function draw(){
   loop();
 
-  if(labeled == false){
+  if(labeled1 == false){
     graph1.yAxisNumbers(increment1, 1);
-    labeled = true;
+    labeled1 = true;
+  }
+
+  if(labeled2 == false){
+    graph2.yAxisNumbers(increment2, 2);
+    labeled2 = true;
   }
 
   //Idea for separate frameCount variable by Amiral Betasin comment: https://www.khanacademy.org/computer-programming/framecount-processingjs/5893935759097856
   myFrameCount++; //Session Timer
   myFrameCount2++; //Break Timer
   myFrameCountProgram1++; //leftmost graph
-  myFrameCountProgram2++; //rightmost graph
   
   sessionTimer();
   breakTimer();
-
 
   if(submit){
     newTask(document.getElementById('inputtitle').value, document.getElementById('details').value);
@@ -213,17 +207,13 @@ function draw(){
       graph1.updateXAxisLength();
       limitGraph1 = limitGraph1 * 2;
     }
-    if(barGroups.length > limitGraph2){
-      graph2.updateXAxisLength();
-      limitGraph2 = limitGraph2 * 2;
-    }
     if(myFrameCountProgram1 % 3600 == 0){
       programMinute++;
       bars[programIndex].updateBar(increment1, programMinute);
-      mostUsed(bars);
       if(bars[programIndex].getTime() >= increment1 * 240){
         increment1++;
-        labeled = false;
+        bars[programIndex].updateBar(increment1, programMinute);
+        labeled1 = false;
       }
     }
   }
@@ -346,28 +336,23 @@ function submitProgram(){
     if(name === temp){
       newProgram = false;
       programIndex = i;
+      originalTime = bars[i].getTime();
 
       //Sets up lefttmost graph
       myFrameCountProgram1 = bars[i].getFrameCount();
       programMinute = bars[i].getTime();
-
-      //Sets up rightmost graph
-      myFrameCountProgram2 = barGroups[i].getFrameCount();
-      workMinute = barGroups[i].getWorkTime();
-      leisureMinute = barGroups[i].getLeisureTime();
-      scrollingMinute = barGroups[i].getScrollingMinute();
     }
   }
 
   //If the entered program hasn't already been tracked
   if(newProgram == true){
     bars.push(new Bar(document.getElementById('program').value, bars.length + 1));
-    barGroups.push(new Bar(document.getElementById('program').value, barGroups.length +1 ));
+    barGroups.push(new BarGroup(document.getElementById('program').value, barGroups.length +1 ));
 
     programIndex = bars.length - 1;
     myFrameCountProgram1 = 0;
-    myFrameCountProgram2 = 0;
     programMinute = 0;
+    originalTime = 0;
   }
 
   newProgram = true;
@@ -377,12 +362,68 @@ function submitProgram(){
 }
 
 function endProgram(){
+  let instructionsString = " ";
+
   document.getElementById('endprogrambutton').style.visibility = "hidden";
   document.getElementById('addprogrambutton').style.visibility = "visible";
   endTracking = true;
 
   bars[programIndex].setFrameCount(myFrameCountProgram1);
-  barGroups[programIndex].setFrameCount(myFrameCountProgram2);
+
+  document.getElementById('time').value = '';
+
+  if(originalTime == 0){
+    instructionsString = "How much of the last " + bars[programIndex].getTime() + " minutes did you work in " + bars[programIndex].getName() + "?";
+  }
+  else if(originalTime != 0){
+    instructionsString = "How much of the last " + (bars[programIndex].getTime() - originalTime) + " minutes did you work in " + bars[programIndex].getName() + "?";
+  }
+ 
+  document.getElementById('workinstructions').innerHTML = instructionsString;
+
+  document.getElementById('worktime').style.visibility = "visible";
+}
+
+function submitTime(){
+  let newTime = 0;
+  let errorString = "Enter a time between 0 and " + bars[programIndex].getTime();
+  let enteredWorkTime = Number(document.getElementById('time').value);
+  let otherTime = 0;
+
+  if(originalTime != 0){
+    errorString = "Enter a time between 0 and " + newTime;
+  }  
+
+  if(enteredWorkTime >= 0 && enteredWorkTime <= bars[programIndex].getTime()){
+    document.getElementById('error').style.visibility = "hidden";
+    document.getElementById('worktime').style.visibility = "hidden";
+    document.getElementById('addprogrambutton').style.visibility = "visible";
+
+    if(originalTime != 0){
+      newTime = bars[programIndex].getTime() - originalTime;
+      otherTime = newTime - enteredWorkTime;
+    }
+    else if(originalTime == 0){
+      otherTime = bars[programIndex].getTime() - enteredWorkTime;
+    }
+
+    barGroups[programIndex].updateWorkBar(increment2, enteredWorkTime);
+    barGroups[programIndex].updateOtherBar(increment2, otherTime);
+
+    if(barGroups.length > limitGraph2){
+      graph2.updateXAxisLength();
+      limitGraph2 = limitGraph2 * 2;
+    }
+
+    if(barGroups[programIndex].getWorkTime() >= increment2 * 240 || barGroups[programIndex].getOtherTime() >= increment2 * 240 ){
+      increment2++;
+      labeled2 = false;
+    }
+  }
+  else{
+    document.getElementById('error').innerHTML = errorString;
+    document.getElementById('error').style.visibility = "visible";
+  }
 }
 
 
