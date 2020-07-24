@@ -1,6 +1,10 @@
 # Productivity Tracker Website
 [Productivity Tracker Website Link](https://pclemon.github.io./)
 
+This is open source (not currently accepting contributions).
+This software is licensed under the [GNU GPLv3](LICENSE.md) which was retrieved [from choosealicense.com](https://choosealicense.com/licenses/gpl-3.0/).
+
+
 ### Reason for this Project
 I am a student at Clemson University, and this is a project for a class.  It is a productivity tracker that a user can utilize to track his/her work throughtout the day.
 
