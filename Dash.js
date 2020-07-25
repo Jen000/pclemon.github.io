@@ -1,6 +1,7 @@
 //Javascript using the p5.js library
 
 //Global variables
+ 
 //Variables for session timer
 let userTime = 0;
 let timeStartSession = false;
@@ -125,49 +126,6 @@ function setup() {
   graph2 = new Graph(2);
   graph2.yAxisNumbers(increment2, 2);
   labeled2 = true;
-
-  //Testing
-
-  //Limit 12
-
-  // bars.push(new Bar('Slack', bars.length + 1));
-  // bars.push(new Bar('Atom', bars.length + 1));
-  // bars.push(new Bar('Word', bars.length + 1));
-  // bars.push(new Bar('Mail', bars.length + 1));
-  // bars.push(new Bar('Excel', bars.length + 1));
-  
-
-  // bars[0].updateBar(1, 30);
-  // bars[1].updateBar(1, 10);
-  // bars[2].updateBar(1, 50);
-  // bars[3].updateBar(1, 20);
-  // bars[4].updateBar(1, 70);
-
-  // //Limit 6
-  // barGroups.push(new BarGroup('Slack', barGroups.length + 1));
-
-  // barGroups[0].updateWorkBar(1, 65);
-  // barGroups[0].updateOtherBar(1, 30);
-
-  // barGroups.push(new BarGroup('Atom', barGroups.length + 1));
-
-  // barGroups[1].updateWorkBar(1, 20);
-  // barGroups[1].updateOtherBar(1, 15);
-
-  // barGroups.push(new BarGroup('Word', barGroups.length + 1));
-
-  // barGroups[2].updateWorkBar(1, 75);
-  // barGroups[2].updateOtherBar(1, 10);
-
-  // barGroups.push(new BarGroup('Word', barGroups.length + 1));
-
-  // barGroups[3].updateWorkBar(1, 75);
-  // barGroups[3].updateOtherBar(1, 10);
-
-  //graph2.updateXAxisLength();
-  //graph1.updateXAxisLength();
-  //mostUsed(bars);
-
 }
 
 function draw(){
