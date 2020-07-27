@@ -1,18 +1,24 @@
+//Class for display the graphs
 class Graph{
     constructor(graph){
         //Fields
+        //Both x and y axis are divs
         this.xAxis = createDiv();
         this.yAxis = createDiv();
+        //The length of the x-axis
         this.xAxisLength = 500;
 
+        //For the Time in App graph
         if(graph == 1){
             this.yAxis.parent(document.getElementById('timeinapp'));
             this.xAxis.parent(document.getElementById('timeinapp'));
         }
+        //For the How You Spend Your Time graph
         else if(graph == 2){
             this.yAxis.parent(document.getElementById('timedivision'));
             this.xAxis.parent(document.getElementById('timedivision'));
 
+            //CSS for the key
             let work = createDiv();
             work.parent(document.getElementById('timedivision'));
             work.style('position', 'absolute');
@@ -36,30 +42,31 @@ class Graph{
             workLabel.style('margin-top', '-3px');
             workLabel.style('font-size', '20px');
 
-            let scrolling = createDiv();
-            scrolling.parent(document.getElementById('timedivision'));
-            scrolling.style('position', 'absolute');
-            scrolling.style('height', '15px');
-            scrolling.style('width', '15px');
-            scrolling.style('border-style', 'solid');
-            scrolling.style('border-color', '#707070');
-            scrolling.style('border-radius', '2px');
-            scrolling.style('background-color', '#9966ff');
-            scrolling.style('margin-top', '365px');
-            scrolling.style('margin-left', '150px');
+            let other = createDiv();
+            other.parent(document.getElementById('timedivision'));
+            other.style('position', 'absolute');
+            other.style('height', '15px');
+            other.style('width', '15px');
+            other.style('border-style', 'solid');
+            other.style('border-color', '#707070');
+            other.style('border-radius', '2px');
+            other.style('background-color', '#9966ff');
+            other.style('margin-top', '365px');
+            other.style('margin-left', '150px');
 
-            let scrollingLabel = createP('Other');
-            scrollingLabel.parent(scrolling);
+            let otherLabel = createP('Other');
+            otherLabel.parent(other);
 
-            scrollingLabel.style('text-align', 'right');
-            scrollingLabel.style('position', 'absolute');
-            scrollingLabel.style('font-family', 'Arial, Helvetica, sans-serif');
-            scrollingLabel.style('color', '#707070');
-            scrollingLabel.style('margin-left', '20px');
-            scrollingLabel.style('margin-top', '-3px');
-            scrollingLabel.style('font-size', '20px');
+            otherLabel.style('text-align', 'right');
+            otherLabel.style('position', 'absolute');
+            otherLabel.style('font-family', 'Arial, Helvetica, sans-serif');
+            otherLabel.style('color', '#707070');
+            otherLabel.style('margin-left', '20px');
+            otherLabel.style('margin-top', '-3px');
+            otherLabel.style('font-size', '20px');
         }
 
+        //CSS for the x and y axis
         this.yAxis.style('margin-top', '40px');
         this.yAxis.style('margin-left', '70px');
         this.yAxis.style('height', '280px');
@@ -77,7 +84,7 @@ class Graph{
         yAxisLabel.style('position', 'absolute');
         yAxisLabel.style('margin-top', '120px');
         yAxisLabel.style('margin-left', '-90px');
-        //Text rotation credit: https://webdesign.tutsplus.com/tutorials/easily-create-sideways-text-using-the-writing-mode-css-property--cms-31829
+        /* Text rotation credit: https://webdesign.tutsplus.com/tutorials/easily-create-sideways-text-using-the-writing-mode-css-property--cms-31829 */
         yAxisLabel.style('transform', 'rotate(-90deg)');
 
         this.xAxis.style('margin-top', '318px');
@@ -100,11 +107,13 @@ class Graph{
 
     //Controls the numbers on the y-axis and the increments (inc) in which they increase
     yAxisNumbers(inc, graph){
+        //Creates the numbers on the y-axis
         let one = createP();
         let two = createP();
         let three = createP();
         let four = createP();
 
+        //Time in app graph
         if(graph == 1){
             one.id('numberone');
             two.id('numbertwo');
@@ -121,6 +130,7 @@ class Graph{
             three.parent(document.getElementById('timeinapp'));
             four.parent(document.getElementById('timeinapp'));
         }
+        //How you spend your time graph
         else if(graph == 2){
             one.id('number1');
             two.id('number2');
@@ -138,6 +148,7 @@ class Graph{
             four.parent(document.getElementById('timedivision'));
         }
 
+        //CSS for the numbers
         one.style('font-family', 'Arial, Helvetica, sans-serif');
         one.style('font-size', '25px');
         one.style('color', '#707070');
@@ -171,6 +182,7 @@ class Graph{
         four.style('margin-left', '43px'); 
     }
 
+    //Makes the x-axis longer
     updateXAxisLength(){
         this.xAxisLength = this.xAxisLength * 2;
         this.xAxis.style('width', this.xAxisLength + 'px');

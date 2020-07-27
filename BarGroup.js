@@ -1,11 +1,18 @@
+//Class for the bars in the "How You Spend Your Time" Graph
 class BarGroup{
+    //Constructor for the bars
     constructor(name, numBars){
+        //Name of the program the bar represents
         this.name = name;
+        //The time in minutes spent working in the program
         this.workTime = 0;
+        //The time in minutes spent not working in the program
         this.otherTime = 0;
+        //The bar to represent work time and time not working both represented by divs
         this.workBar = createDiv();
         this.otherBar = createDiv();
 
+        //Positions the bars' divs in the div for the graph
         this.workBar.parent(document.getElementById('timedivision'));
         this.otherBar.parent(document.getElementById('timedivision'));
 
@@ -14,7 +21,9 @@ class BarGroup{
         this.otherBar.style('margin-left', (spacing + 30) + 'px');
     }
 
+    //Updates the height of the work bar
     updateWorkBar(inc, time){
+        //Changes the height of the div based on the time spent in the app and the increment of time on the y-axis of the graph
         this.workBar.style('width', '30px');
         this.workTime += time;
         let height = this.workTime / inc;
@@ -27,8 +36,9 @@ class BarGroup{
 
         this.workBar.attribute('title', 'spent ' + this.workTime + ' minutes working in ' + this.name);
     }
-
+    //Updates the height of the bar for the time not spent working
     updateOtherBar(inc, time){
+        //Changes the height of the div based on the time spent in the app and the increment of time on the y-axis of the graph
         this.otherBar.style('width', '30px');
         this.otherTime += time;
         let height = this.otherTime / inc;
@@ -42,6 +52,8 @@ class BarGroup{
         this.otherBar.attribute('title', 'spent ' + this.otherTime + ' minutes not working in ' + this.name);
     }
 
+    //Getters
+    
     getName(){
         return this.name;
     }
