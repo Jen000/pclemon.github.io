@@ -157,6 +157,7 @@ function draw(){
 
   //If a new task has been added to the to do list then create the task and display it
   if(submit){
+    /* Credit for accessing DOM elements: https://www.digitalocean.com/community/tutorials/how-to-access-elements-in-the-dom and getting values: https://www.tutorialrepublic.com/faq/how-to-get-the-value-of-text-input-field-using-javascript.php */
     newTask(document.getElementById('inputtitle').value, document.getElementById('details').value);
     display(yCord);
     yCord += 51;
@@ -270,6 +271,7 @@ function setTime(){
   document.getElementById('settime').style.visibility = "visible";
   document.getElementById('timer').style.visibility = "hidden";
 
+  /* Credit for creating the input with p5.js: https://p5js.org/examples/dom-input-and-button.html */
   //Creates text input for the timer and postions on the screen
   userTime = createInput();
   userTime.position(1400, 200);

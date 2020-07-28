@@ -18,6 +18,7 @@
 
 
   <!-- SESSION TIMER -->
+  <!-- Credit for button to Alessandro Minoccheri: https://stackoverflow.com/questions/15968911/how-to-clear-text-area-with-a-button-in-html-using-javascript/15968947 -->
   <button id = "startsession" class = "TimerButtons" style = "margin-top: 150px; margin-left: 1837.5px;" onclick = "startSession()">
     <div class = "StartDesign"></div>
   </button>
@@ -50,7 +51,7 @@
 
   <p id = "displaytimebreak" class = DisplayTime style = "margin-top: 370px; visibility: visible;"> 00:00:00 </p>
 
-  <!-- Top Three -->
+  <!-- TOP THREE -->
   <p id = "first" class = "First"> </p>
   <p id = "second" class = "Second"> </p>
   <p id = "third" class = "Third"> </p>
@@ -74,25 +75,30 @@
   </div>
   <button class = "ClearAllButton" onclick = "clearAll()"> Clear All </button>
 
-<div id = "timeinapp" class = "AppTime">
-  <button id = "addprogrambutton" class = "AddProgramButton" onclick = "addProgram()"> Add Program to Track </button>
-  <div id = "programpopup" class = "ProgramPopUp">
-    <h2 class = "ProgramName"> Enter the name of the program you would like to track. </h2>
-    <input id = "program" class = "Program" type = "text">
-    <button class = "SubmitProgramButton" onclick = "submitProgram()"> Submit </button>
+  <!-- TIME IN APP GRAPH -->
+  <div id = "timeinapp" class = "AppTime">
+    <p class = "GraphTitle1"> Time in Program </p>
+    <button id = "addprogrambutton" class = "AddProgramButton" onclick = "addProgram()"> Add Program to Track </button>
+    <div id = "programpopup" class = "ProgramPopUp">
+      <h2 class = "ProgramName"> Enter the name of the program you would like to track. </h2>
+      <input id = "program" class = "Program" type = "text">
+      <button class = "SubmitProgramButton" onclick = "submitProgram()"> Submit </button>
+    </div>
+
+    <div id = "worktime" class = "WorkTime">
+      <h2 id = "workinstructions" class = "WorkInstructions"> </h2>
+      <h1 id = "error" class = "Error"> </h1>
+      <input id = "time" class = "Time" type = "text">
+      <button id = "submitworktimebutton" class = "SubmitWorkTimeButton" onclick = "submitTime()"> Submit </button>
+    </div>
+
+    <button id = "endprogrambutton" class = "EndProgramButton" onclick = "endProgram()"> End Program </button>
   </div>
 
-  <div id = "worktime" class = "WorkTime">
-    <h2 id = "workinstructions" class = "WorkInstructions"> </h2>
-    <h1 id = "error" class = "Error"> </h1>
-    <input id = "time" class = "Time" type = "text">
-    <button id = "submitworktimebutton" class = "SubmitWorkTimeButton" onclick = "submitTime()"> Submit </button>
+  <!-- HOW YOU SPEND YOUR TIME GRAPH -->
+  <div id = "timedivision" class = "TimeDivision">
+    <p class = "GraphTitle2"> How You Spend Your Time </p>
   </div>
-
-  <button id = "endprogrambutton" class = "EndProgramButton" onclick = "endProgram()"> End Program </button>
-</div>
-
-<div id = "timedivision" class = "TimeDivision"></div>
 
 </body>
 </html>
