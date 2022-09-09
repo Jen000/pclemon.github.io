@@ -46,3 +46,5 @@ Any questions or concerns can be emailed to pclemon@g.clemson.edu
 ### Resources
 I used [this templete](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) as a guide.
 
+### Testing fork, clone, edit and pr
+Hi, it's Jenna here. Doing some testing
